@@ -4,20 +4,20 @@
  * @author Codex Team
  * @copyright Khaydarov Murod
  */
-'use strict';
+"use strict";
 
 module.exports = (env, argv) => {
-  const path = require('path');
-  const TerserPlugin = require('terser-webpack-plugin');
-  const { LicenseWebpackPlugin } = require('license-webpack-plugin');
-  const pkg = require('./package.json');
+  const path = require("path");
+  const TerserPlugin = require("terser-webpack-plugin");
+  const { LicenseWebpackPlugin } = require("license-webpack-plugin");
+  const pkg = require("./package.json");
 
   /**
    * Environment
    *
    * @type {any}
    */
-  const NODE_ENV = argv.mode || 'development';
+  const NODE_ENV = argv.mode || "development";
   const VERSION = process.env.VERSION || pkg.version;
 
   /**
@@ -25,18 +25,18 @@ module.exports = (env, argv) => {
    *
    * @type {webpack}
    */
-  const webpack = require('webpack');
+  const webpack = require("webpack");
 
   return {
     entry: {
-      editor: ['@babel/polyfill/noConflict', './src/codex.ts'],
+      editor: ["@babel/polyfill/noConflict", "./src/codex.ts"],
     },
 
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: '[name].js',
-      library: [ 'EditorJS' ],
-      libraryTarget: 'umd',
+      path: path.resolve(__dirname, "dist"),
+      filename: "[name].js",
+      library: ["EditorJS"],
+      libraryTarget: "umd",
     },
 
     watchOptions: {
@@ -47,8 +47,8 @@ module.exports = (env, argv) => {
      * Tell webpack what directories should be searched when resolving modules.
      */
     resolve: {
-      modules: [path.join(__dirname, 'src'), 'node_modules'],
-      extensions: ['.js', '.ts'],
+      modules: [path.join(__dirname, "src"), "node_modules"],
+      extensions: [".js", ".ts"],
     },
 
     plugins: [
@@ -71,35 +71,33 @@ module.exports = (env, argv) => {
           test: /\.ts$/,
           use: [
             {
-              loader: 'babel-loader',
+              loader: "babel-loader",
               options: {
                 cacheDirectory: true,
               },
             },
             {
-              loader: 'ts-loader',
+              loader: "ts-loader",
             },
           ],
         },
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          use: [
-            'postcss-loader',
-          ],
+          use: ["postcss-loader"],
         },
         {
           test: /\.(svg)$/,
           use: [
             {
-              loader: 'raw-loader',
+              loader: "raw-loader",
             },
           ],
         },
       ],
     },
 
-    devtool: NODE_ENV === 'development' ? 'source-map' : false,
+    devtool: NODE_ENV === "development" ? "source-map" : false,
 
     optimization: {
       minimizer: [

@@ -1,4 +1,4 @@
-import {BlockToolData} from '../tools';
+import { BlockToolData, BlockToolSetting } from '../tools';
 
 /**
  * Output of one Tool
@@ -12,6 +12,8 @@ export interface OutputBlockData {
    * Saved Block data
    */
   data: BlockToolData;
+
+  settings: BlockToolSetting;
 }
 
 export interface OutputData {

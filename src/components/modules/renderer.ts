@@ -65,12 +65,14 @@ export default class Renderer extends Module {
     const { Tools, BlockManager } = this.Editor;
     const tool = item.type;
     const data = item.data;
+    const settingBlock = item.settings || {};
 
     if (tool in Tools.available) {
       try {
         BlockManager.insert({
           tool,
           data,
+          settingBlock,
         });
       } catch (error) {
         _.log(`Block «${tool}» skipped because of plugins error`, 'warn', data);

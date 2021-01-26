@@ -94,7 +94,7 @@ function BlockAPI(
      *
      * @returns {Promise<void|SavedData>}
      */
-    save(): Promise<void|SavedData> {
+    save(): Promise<void | SavedData> {
       return block.save();
     },
 

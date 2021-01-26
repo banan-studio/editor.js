@@ -40,7 +40,7 @@ export default class DeleteTune implements BlockTune {
   /**
    * Tune nodes
    */
-  private nodes: {button: HTMLElement} = {
+  private nodes: { button: HTMLElement; } = {
     button: null,
   };
 

@@ -57,7 +57,7 @@ export default class Core {
    * @param {EditorConfig} config - user configuration
    *
    */
-  constructor(config?: EditorConfig|string) {
+  constructor(config?: EditorConfig | string) {
     /**
      * Ready promise. Resolved if Editor.js is ready to work, rejected otherwise
      */
@@ -114,7 +114,7 @@ export default class Core {
    *
    * @param {EditorConfig|string} config - Editor's config to set
    */
-  public set configuration(config: EditorConfig|string) {
+  public set configuration(config: EditorConfig | string) {
     /**
      * Process zero-configuration or with only holderId
      * Make config object
@@ -176,6 +176,7 @@ export default class Core {
     const defaultBlockData = {
       type: this.config.defaultBlock,
       data: {},
+      settings: {},
     };
 
     this.config.placeholder = this.config.placeholder || false;
@@ -190,9 +191,9 @@ export default class Core {
     this.config.i18n = this.config.i18n || {};
     this.config.data = this.config.data || {} as OutputData;
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.config.onReady = this.config.onReady || ((): void => {});
+    this.config.onReady = this.config.onReady || ((): void => { });
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this.config.onChange = this.config.onChange || ((): void => {});
+    this.config.onChange = this.config.onChange || ((): void => { });
     this.config.inlineToolbar = this.config.inlineToolbar !== undefined ? this.config.inlineToolbar : true;
 
     /**
@@ -200,10 +201,10 @@ export default class Core {
      */
     if (_.isEmpty(this.config.data)) {
       this.config.data = {} as OutputData;
-      this.config.data.blocks = [ defaultBlockData ];
+      this.config.data.blocks = [defaultBlockData];
     } else {
       if (!this.config.data.blocks || this.config.data.blocks.length === 0) {
-        this.config.data.blocks = [ defaultBlockData ];
+        this.config.data.blocks = [defaultBlockData];
       }
     }
 
@@ -227,7 +228,7 @@ export default class Core {
    *
    * @returns {EditorConfig}
    */
-  public get configuration(): EditorConfig|string {
+  public get configuration(): EditorConfig | string {
     return this.config;
   }
 

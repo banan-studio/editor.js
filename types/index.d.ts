@@ -58,7 +58,8 @@ export {
   FilePasteEvent,
   FilePasteEventDetail,
 } from './tools';
-export {BlockTune, BlockTuneConstructable} from './block-tunes';
+export { BlockTune, BlockTuneConstructable } from './block-tunes';
+export { BlockIndicator, BlockIndicatorConstructable } from './block-indicator';
 export {
   EditorConfig,
   SanitizerConfig,
@@ -70,8 +71,8 @@ export {
   DictValue,
   I18nConfig,
 } from './configs';
-export {OutputData, OutputBlockData} from './data-formats/output-data';
-export { BlockAPI } from './api'
+export { OutputData, OutputBlockData } from './data-formats/output-data';
+export { BlockAPI } from './api';
 
 /**
  * We have a namespace API {@link ./api/index.d.ts} (APIMethods) but we can not use it as interface
@@ -113,7 +114,7 @@ declare class EditorJS {
   public toolbar: Toolbar;
   public inlineToolbar: InlineToolbar;
   public readOnly: ReadOnly;
-  constructor(configuration?: EditorConfig|string);
+  constructor(configuration?: EditorConfig | string);
 
   /**
    * API shorthands

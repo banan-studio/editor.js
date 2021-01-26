@@ -29,7 +29,7 @@ export default class Saver extends Module {
   public async save(): Promise<OutputData> {
     const { BlockManager, Sanitizer, ModificationsObserver } = this.Editor;
     const blocks = BlockManager.blocks,
-        chainData = [];
+      chainData = [];
 
     /**
      * Disable modifications observe while saving
@@ -78,7 +78,7 @@ export default class Saver extends Module {
 
     _.log('[Editor.js saving]:', 'groupCollapsed');
 
-    allExtractedData.forEach(({ tool, data, time, isValid }) => {
+    allExtractedData.forEach(({ tool, data, time, isValid, settings }) => {
       totalTime += time;
 
       /**
@@ -107,6 +107,7 @@ export default class Saver extends Module {
       blocks.push({
         type: tool,
         data,
+        settings,
       });
     });
 

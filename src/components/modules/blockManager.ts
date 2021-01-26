@@ -1,3 +1,4 @@
+import { BlockToolSetting } from './../../../types/tools/blcock-tool-setting.d';
 /**
  * @class BlockManager
  * @classdesc Manage editor`s blocks storage and appearance
@@ -219,7 +220,7 @@ export default class BlockManager extends Module {
    *
    * @returns {Block}
    */
-  public composeBlock({ tool, data = {} }: {tool: string; data?: BlockToolData}): Block {
+  public composeBlock({ tool, data = {}, settingBlock = {} }: { tool: string; data?: BlockToolData; settingBlock?: BlockToolSetting; }): Block {
     const readOnly = this.Editor.ReadOnly.isEnabled;
     const settings = this.Editor.Tools.getToolSettings(tool);
     const Tool = this.Editor.Tools.available[tool] as BlockToolConstructable;
@@ -230,6 +231,7 @@ export default class BlockManager extends Module {
       settings,
       api: this.Editor.API,
       readOnly,
+      settingBlock,
     });
 
     if (!readOnly) {
@@ -257,12 +259,14 @@ export default class BlockManager extends Module {
     index,
     needToFocus = true,
     replace = false,
+    settingBlock = {},
   }: {
     tool?: string;
     data?: BlockToolData;
     index?: number;
     needToFocus?: boolean;
     replace?: boolean;
+    settingBlock?: BlockToolSetting;
   } = {}): Block {
     let newIndex = index;
 
@@ -273,6 +277,7 @@ export default class BlockManager extends Module {
     const block = this.composeBlock({
       tool,
       data,
+      settingBlock,
     });
 
     this._blocks.insert(newIndex, block, replace);
@@ -521,8 +526,8 @@ export default class BlockManager extends Module {
     }
 
     const nodes = this._blocks.nodes,
-        firstLevelBlock = element.closest(`.${Block.CSS.wrapper}`),
-        index = nodes.indexOf(firstLevelBlock as HTMLElement);
+      firstLevelBlock = element.closest(`.${Block.CSS.wrapper}`),
+      index = nodes.indexOf(firstLevelBlock as HTMLElement);
 
     if (index >= 0) {
       return this._blocks[index];

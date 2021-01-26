@@ -1,5 +1,8 @@
+import { BlockToolSetting } from './../../../types/tools/blcock-tool-setting.d';
 import {
   BlockAPI as BlockAPIInterface,
+  BlockIndicator,
+  BlockIndicatorConstructable,
   BlockTool,
   BlockToolConstructable,
   BlockToolData,
@@ -22,6 +25,7 @@ import MoveUpTune from '../block-tunes/block-tune-move-up';
 import DeleteTune from '../block-tunes/block-tune-delete';
 import MoveDownTune from '../block-tunes/block-tune-move-down';
 import SelectionUtils from '../selection';
+import NoIndexIndicator from '../block-indicator/block-indicator-no-index';
 
 /**
  * Interface describes Block class constructor argument
@@ -56,6 +60,8 @@ interface BlockConstructorOptions {
    * This flag indicates that the Block should be constructed in the read-only mode.
    */
   readOnly: boolean;
+
+  settingBlock?: BlockToolSetting;
 }
 
 /**
@@ -91,12 +97,13 @@ export enum BlockToolAPI {
  * @property {HTMLElement} pluginsContent - HTML content that returns by Tool's render function
  */
 export default class Block {
+  settingBlock: any;
   /**
    * CSS classes for the Block
    *
    * @returns {{wrapper: string, content: string}}
    */
-  public static get CSS(): {[name: string]: string} {
+  public static get CSS(): { [name: string]: string; } {
     return {
       wrapper: 'ce-block',
       wrapperStretched: 'ce-block--stretched',
@@ -104,6 +111,7 @@ export default class Block {
       focused: 'ce-block--focused',
       selected: 'ce-block--selected',
       dropTarget: 'ce-block--drop-target',
+      indicators: 'ce-block__indicators',
     };
   }
 
@@ -198,6 +206,11 @@ export default class Block {
   private readonly blockAPI: BlockAPIInterface;
 
   /**
+   * Indicators used by Indicators
+   */
+  private indicators: BlockIndicator[] = [];
+
+  /**
    * @param {object} options - block constructor options
    * @param {string} options.name - Tool name that passed on initialization
    * @param {BlockToolData} options.data - Tool's initial data
@@ -213,11 +226,14 @@ export default class Block {
     settings,
     api,
     readOnly,
+    settingBlock,
   }: BlockConstructorOptions) {
     this.name = name;
     this.class = Tool;
     this.settings = settings;
     this.config = settings.config || {};
+    this.settingBlock = settingBlock || {};
+
     this.api = api;
     this.blockAPI = new BlockAPI(this);
 
@@ -230,6 +246,7 @@ export default class Block {
       block: this.blockAPI,
       readOnly,
     });
+    this.indicators = this.makeIndicators();
 
     this.holder = this.compose();
     /**
@@ -535,7 +552,7 @@ export default class Block {
    *
    * @returns {object}
    */
-  public async save(): Promise<void|SavedData> {
+  public async save(): Promise<void | SavedData> {
     const extractedBlock = await this.tool.save(this.pluginsContent as HTMLElement);
 
     /**
@@ -543,6 +560,12 @@ export default class Block {
      */
     const measuringStart = window.performance.now();
     let measuringEnd;
+
+    const settings = {};
+
+    this.indicators.forEach((indicator: BlockIndicator) => {
+      settings[indicator.name] = indicator.getStatus();
+    });
 
     return Promise.resolve(extractedBlock)
       .then((finishedExtraction) => {
@@ -553,6 +576,7 @@ export default class Block {
           tool: this.name,
           data: finishedExtraction,
           time: measuringEnd - measuringStart,
+          settings,
         };
       })
       .catch((error) => {
@@ -602,7 +626,7 @@ export default class Block {
     ];
 
     // Pluck tunes list and return tune instances with passed Editor API and settings
-    return tunesList.map(({ name, Tune }: {name: string; Tune: BlockTuneConstructable}) => {
+    return tunesList.map(({ name, Tune }: { name: string; Tune: BlockTuneConstructable; }) => {
       return new Tune({
         api: this.api.getMethodsForTool(name, ToolType.Tune),
         settings: this.config,
@@ -678,11 +702,16 @@ export default class Block {
    * @returns {HTMLDivElement}
    */
   private compose(): HTMLDivElement {
-    const wrapper = $.make('div', Block.CSS.wrapper) as HTMLDivElement,
-        contentNode = $.make('div', Block.CSS.content),
-        pluginsContent = this.tool.render();
+    const wrapper = $.make('div', Block.CSS.wrapper) as HTMLDivElement;
+    const contentNode = $.make('div', Block.CSS.content);
+    const pluginsContent = this.tool.render();
 
+    const indicators = $.make('div', Block.CSS.indicators);
+    const indicatorsContent = this.renderIndicators();
+
+    indicators.appendChild(indicatorsContent);
     contentNode.appendChild(pluginsContent);
+    wrapper.appendChild(indicators);
     wrapper.appendChild(contentNode);
 
     return wrapper;
@@ -701,7 +730,7 @@ export default class Block {
      * Update current input
      */
     this.updateCurrentInput();
-  }
+  };
 
   /**
    * Adds focus event listeners to all inputs and contentEditables
@@ -719,5 +748,37 @@ export default class Block {
     this.inputs.forEach(input => {
       input.removeEventListener('focus', this.handleFocus);
     });
+  }
+
+  /**
+   * Make an array with default settings
+   * Each block has default tune instance that have states
+   *
+   * @returns {BlockIndicator[]}
+   */
+  private makeIndicators(): BlockIndicator[] {
+    const indicatorsList: BlockIndicatorConstructable[] = [NoIndexIndicator];
+
+    return indicatorsList.map((Indicator: BlockIndicatorConstructable) => {
+      return new Indicator({
+        api: this.api,
+        settings: this.settingBlock,
+      });
+    });
+  }
+
+  /**
+   * Enumerates initialized tunes and returns fragment that can be appended to the toolbars area
+   *
+   * @returns {DocumentFragment}
+   */
+  private renderIndicators(): DocumentFragment {
+    const indicatorElement = document.createDocumentFragment();
+
+    this.indicators.forEach((indicator) => {
+      $.append(indicatorElement, indicator.render());
+    });
+
+    return indicatorElement;
   }
 }
