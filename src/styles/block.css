@@ -99,8 +99,20 @@
       text-align: center;
       color: #707684;
       cursor: pointer;
+      background-color: #ffffff;
+      position: relative;
+      position: relative;
+      width: 25px;
+      height: 25px;
+      svg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+      }
       &:hover {
         color: #1d202b;
+        background-color: #eff2f5;
       }
     }
   }
