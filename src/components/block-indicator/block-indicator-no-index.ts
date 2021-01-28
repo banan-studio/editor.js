@@ -19,11 +19,11 @@ export default class NoIndexIndicator implements BlockIndicator {
    * Styles
    */
   private readonly CSS = {
-    key: 'ce-indicator--no-index',
+    key: 'ce-block-indicator--no-index',
     title: 'ce-block-indicator__title',
     icon: 'ce-block-indicator__icon',
     active: 'ce-block-indicator--active',
-    button: 'ce-indicator__button',
+    button: 'ce-block-indicator__button',
   };
 
   /**

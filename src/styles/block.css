@@ -73,13 +73,13 @@
     left: calc((100% - var(--content-width)) / 2 - 34px * 2);
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0;
-    pointer-events: none;
+    /* opacity: 0; */
+    /* pointer-events: none; */
   }
-  &:hover  &__indicators {
+  /* &:hover  &__indicators {
       opacity: 1;
       pointer-events: all;
-  }
+  } */
 
   a {
     cursor: pointer;
@@ -93,7 +93,7 @@
   i {
     font-style: italic;
   }
-  .ce-indicator {
+  .ce-block-indicator{
     &__button {
       padding: 5px;
       text-align: center;
@@ -104,6 +104,8 @@
       position: relative;
       width: 25px;
       height: 25px;
+      opacity: 0;
+      pointer-events: none;
       svg {
         position: absolute;
         left: 50%;
@@ -114,6 +116,16 @@
         color: #1d202b;
         background-color: #eff2f5;
       }
+    }
+    &--active  {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+  &:hover .ce-block-indicator {
+    &__button {
+      opacity: 1;
+      pointer-events: all;
     }
   }
 }
