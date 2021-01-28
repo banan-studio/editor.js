@@ -76,7 +76,7 @@
     opacity: 0;
     pointer-events: none;
   }
-  &--focused  &__indicators {
+  &:hover  &__indicators {
       opacity: 1;
       pointer-events: all;
   }
