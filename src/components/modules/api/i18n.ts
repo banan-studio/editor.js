@@ -22,7 +22,7 @@ export default class I18nAPI extends Module {
       case ToolType.Tune:
         return `blockTunes.${toolName}`;
       case ToolType.Indicator:
-        return `blockIndicator.${toolName}`;
+        return `blockIndicators.${toolName}`;
     }
   }
 

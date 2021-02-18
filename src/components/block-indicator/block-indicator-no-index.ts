@@ -63,7 +63,6 @@ export default class NoIndexIndicator implements BlockIndicator {
     );
 
     this.api.tooltip.onHover(noIndexButton, this.api.i18n.t('Indexing'));
-    this.api.tooltip.onHover(noIndexButton, 'Indexing');
     this.nodes.noIndexButton = noIndexButton;
     this.checkState();
 
@@ -104,7 +103,6 @@ export default class NoIndexIndicator implements BlockIndicator {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   constructor({ api, settings }) {
     this.api = api;
-    // console.log(settings);
     this.active = settings[this.name] ?? false;
   }
 
