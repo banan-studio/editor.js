@@ -201,10 +201,10 @@ export default class Core {
      */
     if (_.isEmpty(this.config.data)) {
       this.config.data = {} as OutputData;
-      this.config.data.blocks = [defaultBlockData];
+      this.config.data.blocks = [ defaultBlockData ];
     } else {
       if (!this.config.data.blocks || this.config.data.blocks.length === 0) {
-        this.config.data.blocks = [defaultBlockData];
+        this.config.data.blocks = [ defaultBlockData ];
       }
     }
 

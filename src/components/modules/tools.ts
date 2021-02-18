@@ -498,4 +498,9 @@ export enum ToolType {
    * Block tune
    */
   Tune,
+
+  /**
+   * Block indicator
+   */
+  Indicator
 }

@@ -1,5 +1,5 @@
+import { API } from "./../index.d";
 import { ToolConfig } from '..';
-import ApiModules from '../../src/components/modules/api';
 export interface BlockIndicator {
   // paramName: string;
   /**
@@ -13,5 +13,5 @@ export interface BlockIndicator {
 }
 
 export interface BlockIndicatorConstructable {
-  new(config: { api: ApiModules; settings?: ToolConfig; }): BlockIndicator;
+  new(config: { api: API; settings?: ToolConfig; }): BlockIndicator;
 }

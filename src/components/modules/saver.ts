@@ -29,7 +29,7 @@ export default class Saver extends Module {
   public async save(): Promise<OutputData> {
     const { BlockManager, Sanitizer, ModificationsObserver } = this.Editor;
     const blocks = BlockManager.blocks,
-      chainData = [];
+        chainData = [];
 
     /**
      * Disable modifications observe while saving

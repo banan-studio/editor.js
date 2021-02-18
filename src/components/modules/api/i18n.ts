@@ -21,6 +21,8 @@ export default class I18nAPI extends Module {
         return `tools.${toolName}`;
       case ToolType.Tune:
         return `blockTunes.${toolName}`;
+      case ToolType.Indicator:
+        return `blockIndicator.${toolName}`;
     }
   }
 

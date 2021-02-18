@@ -220,7 +220,7 @@ export default class BlockManager extends Module {
    *
    * @returns {Block}
    */
-  public composeBlock({ tool, data = {}, settingBlock = {} }: { tool: string; data?: BlockToolData; settingBlock?: BlockToolSetting; }): Block {
+  public composeBlock({ tool, data = {}, settingBlock = {} }: { tool: string; data?: BlockToolData; settingBlock?: BlockToolSetting }): Block {
     const readOnly = this.Editor.ReadOnly.isEnabled;
     const settings = this.Editor.Tools.getToolSettings(tool);
     const Tool = this.Editor.Tools.available[tool] as BlockToolConstructable;
@@ -526,8 +526,8 @@ export default class BlockManager extends Module {
     }
 
     const nodes = this._blocks.nodes,
-      firstLevelBlock = element.closest(`.${Block.CSS.wrapper}`),
-      index = nodes.indexOf(firstLevelBlock as HTMLElement);
+        firstLevelBlock = element.closest(`.${Block.CSS.wrapper}`),
+        index = nodes.indexOf(firstLevelBlock as HTMLElement);
 
     if (index >= 0) {
       return this._blocks[index];

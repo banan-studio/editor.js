@@ -103,7 +103,7 @@ export default class Block {
    *
    * @returns {{wrapper: string, content: string}}
    */
-  public static get CSS(): { [name: string]: string; } {
+  public static get CSS(): { [name: string]: string } {
     return {
       wrapper: 'ce-block',
       wrapperStretched: 'ce-block--stretched',
@@ -626,7 +626,7 @@ export default class Block {
     ];
 
     // Pluck tunes list and return tune instances with passed Editor API and settings
-    return tunesList.map(({ name, Tune }: { name: string; Tune: BlockTuneConstructable; }) => {
+    return tunesList.map(({ name, Tune }: { name: string; Tune: BlockTuneConstructable }) => {
       return new Tune({
         api: this.api.getMethodsForTool(name, ToolType.Tune),
         settings: this.config,
@@ -757,11 +757,14 @@ export default class Block {
    * @returns {BlockIndicator[]}
    */
   private makeIndicators(): BlockIndicator[] {
-    const indicatorsList: BlockIndicatorConstructable[] = [NoIndexIndicator];
+    const indicatorsList = [ {
+      name: 'noIndex',
+      Indicator: NoIndexIndicator,
+    } ];
 
-    return indicatorsList.map((Indicator: BlockIndicatorConstructable) => {
+    return indicatorsList.map(({ name, Indicator }) => {
       return new Indicator({
-        api: this.api,
+        api: this.api.getMethodsForTool(name, ToolType.Indicator),
         settings: this.settingBlock,
       });
     });
@@ -776,6 +779,7 @@ export default class Block {
     const indicatorElement = document.createDocumentFragment();
 
     this.indicators.forEach((indicator) => {
+      console.log(indicator);
       $.append(indicatorElement, indicator.render());
     });
 

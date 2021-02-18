@@ -41,5 +41,10 @@
     "moveDown": {
       "Move down": ""
     }
+  },
+  "blockIndicator": {
+    "noIndex": {
+      "Indexing": ""
+    }
   }
 }

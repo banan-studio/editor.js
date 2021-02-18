@@ -1,6 +1,6 @@
+import { API } from './../../../types/index.d';
 import $ from '../dom';
 import { BlockIndicator } from '../../../types';
-import ApiModules from '../../components/modules/api';
 /**
  * @class NoIndexIndicator
  * @classdesc Editor's default Indicator that moves up selected block
@@ -29,7 +29,8 @@ export default class NoIndexIndicator implements BlockIndicator {
   /**
    * Elements
    */
-  private nodes: { noIndexButton: HTMLElement; } = {
+  // eslint-disable-next-line @typescript-eslint/member-delimiter-style
+  private nodes: { noIndexButton: HTMLElement | undefined; } = {
     noIndexButton: undefined,
   };
 
@@ -38,7 +39,7 @@ export default class NoIndexIndicator implements BlockIndicator {
    *
    * @see {api.md}
    */
-  private readonly api: ApiModules;
+  private readonly api: API;
 
   /**
    * Status
@@ -54,14 +55,15 @@ export default class NoIndexIndicator implements BlockIndicator {
     const noIndexButton = $.make('div', [this.CSS.key, this.CSS.button], {});
 
     noIndexButton.appendChild($.svg('eye', 20, 20));
-    this.api.methods.listeners.on(
+    this.api.listeners.on(
       noIndexButton,
       'click',
       () => this.handleClick(),
       false
     );
 
-    this.api.methods.tooltip.onHover(noIndexButton, 'Indexing');
+    this.api.tooltip.onHover(noIndexButton, this.api.i18n.t('Indexing'));
+    this.api.tooltip.onHover(noIndexButton, 'Indexing');
     this.nodes.noIndexButton = noIndexButton;
     this.checkState();
 
