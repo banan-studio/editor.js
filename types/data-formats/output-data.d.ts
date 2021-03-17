@@ -2,12 +2,15 @@ import { BlockToolData, BlockToolSetting } from '../tools';
 
 /**
  * Output of one Tool
+ *
+ * @template Type - the string literal describing a tool type
+ * @template Data - the structure describing a data object supported by the tool
  */
-export interface OutputBlockData {
+export interface OutputBlockData<Type extends string = string, Data extends object = any> {
   /**
-   * Too type
+   * Tool type
    */
-  type: string;
+  type: Type;
   /**
    * Saved Block data
    */
